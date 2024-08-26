@@ -1,0 +1,39 @@
+services:
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: teste-dev#324
+      MYSQL_DATABASE: db_teste_dev
+      MYSQL_USER: root
+      MYSQL_PASSWORD: teste-dev#324
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  app:
+    image: teste-dev:1.5
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/db_teste_dev
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: teste-dev#324
+      SPRING_RABBITMQ_EXCHANGE: pedido_exchange
+      SPRING_RABBITMQ_QUEUE: pedido_queue
+      SPRING_RABBITMQ_ROUTINGKEY: pedido_routingkey
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+    depends_on:
+      - mysql
+      - rabbitmq
+    ports:
+      - "8090:8080"
+
+volumes:
+  db_data:

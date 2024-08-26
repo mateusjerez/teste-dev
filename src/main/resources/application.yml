@@ -1,0 +1,22 @@
+spring:
+  profiles: 
+    active: dev
+  datasource:
+    url: jdbc:mysql://mysql:3306/db_teste_dev
+    username: root
+    password: teste-dev#324
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
+rabbitmq:
+  exchange: ${SPRING_RABBITMQ_EXCHANGE}
+  routingkey: ${SPRING_RABBITMQ_ROUTINKEY}
+  queue: ${SPRING_RABBITMQ_QUEUE}
+  host: ${SPRING_RABBITMQ_HOST}
+  username: ${SPRING_RABBITMQ_USERNAME}
+  password: ${SPRING_RABBITMQ_PASSWORD}
